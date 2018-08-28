@@ -137,6 +137,7 @@ subprojects {
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
         testImplementation 'io.projectreactor:reactor-test'
         testImplementation "io.vavr:vavr-test:${vavrVersion}"
+        testImplementation 'com.lmax:disruptor:3.4.2'
     }
 
     // Overriding deprecated dependencies:
