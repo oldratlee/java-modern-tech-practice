@@ -5,9 +5,12 @@
 - `Spring`
     - `Spring Boot`
     - `Spring 5`
-- `Reactive`
+- `RP/Reactive Programming`
     - `Reactor`
     - `RxJava`
     - `RxKotlin`
+- `FP/Functional Programming`
+    - `vavr`
+    - `jOOL`
+    - `funKTionale`
 - `gradle`: build tool
-
