@@ -41,15 +41,15 @@ repositories {
 
 
 dependencies {
-    compile 'org.springframework.boot:spring-boot-starter-data-redis'
-    compile 'org.springframework.boot:spring-boot-starter-data-redis-reactive'
-    compile 'org.springframework.boot:spring-boot-starter-webflux'
-    compile 'com.fasterxml.jackson.module:jackson-module-kotlin'
-    compile 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
-    compile 'org.jetbrains.kotlin:kotlin-reflect'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis-reactive'
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation 'com.fasterxml.jackson.module:jackson-module-kotlin'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
+    implementation 'org.jetbrains.kotlin:kotlin-reflect'
 
-    compile 'io.reactivex.rxjava2:rxjava'
+    implementation 'io.reactivex.rxjava2:rxjava'
 
-    testCompile 'org.springframework.boot:spring-boot-starter-test'
-    testCompile 'io.projectreactor:reactor-test'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'io.projectreactor:reactor-test'
 }
