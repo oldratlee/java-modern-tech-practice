@@ -1,6 +1,7 @@
 buildscript {
     ext {
         kotlinVersion = '1.2.61'
+        kotlinCoroutinesVersion = '0.25.0'
         springBootVersion = '2.0.4.RELEASE'
     }
     repositories {
@@ -34,6 +35,12 @@ compileTestKotlin {
         jvmTarget = "1.8"
     }
 }
+kotlin {
+    experimental {
+        coroutines 'enable'
+    }
+}
+
 
 repositories {
     mavenCentral()
@@ -49,6 +56,13 @@ dependencies {
     implementation 'org.jetbrains.kotlin:kotlin-reflect'
 
     implementation 'io.reactivex.rxjava2:rxjava'
+    implementation 'io.reactivex.rxjava2:rxkotlin:2.3.0'
+    // https://github.com/Kotlin/kotlinx.coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:${kotlinCoroutinesVersion}"
+    // kotlinx.coroutines integration
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:${kotlinCoroutinesVersion}"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-rx2:${kotlinCoroutinesVersion}"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-reactor:${kotlinCoroutinesVersion}"
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'io.projectreactor:reactor-test'
