@@ -102,7 +102,19 @@ dependencies {
     testImplementation 'io.projectreactor:reactor-test'
 }
 
-configurations {
-    all*.exclude module: 'kotlin-stdlib-jre7'
-    all*.exclude module: 'kotlin-stdlib-jre8'
+allprojects {
+    // Overriding deprecated dependencies:
+    //      kotlin-stdlib-jre7 -> kotlin-stdlib-jdk7
+    //      kotlin-stdlib-jre8 -> kotlin-stdlib-jdk8
+    // how to see: https://dzone.com/articles/gradle-overruling-third-party
+    configurations.all {
+        resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+            def requested = details.requested
+            if (requested.group == 'org.jetbrains.kotlin' && requested.name == 'kotlin-stdlib-jre8') {
+                details.useTarget("${requested.group}:kotlin-stdlib-jdk8:${requested.version}")
+            } else if (requested.group == 'org.jetbrains.kotlin' && requested.name == 'kotlin-stdlib-jre7') {
+                details.useTarget("${requested.group}:kotlin-stdlib-jdk7:${requested.version}")
+            }
+        }
+    }
 }
