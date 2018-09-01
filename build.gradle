@@ -77,23 +77,26 @@ dependencies {
     implementation "io.vavr:vavr:${vavrVersion}"
     implementation "io.vavr:vavr-kotlin:${vavrVersion}"
     implementation 'org.jooq:jool-java-8:0.9.14'
+
     // funktionale
-    implementation "org.funktionale:funktionale-collections:${funktionaleVersion}"
-    implementation "org.funktionale:funktionale-complement:${funktionaleVersion}"
+    // high-order function-ish
     implementation "org.funktionale:funktionale-composition:${funktionaleVersion}"
     implementation "org.funktionale:funktionale-currying:${funktionaleVersion}"
-    implementation "org.funktionale:funktionale-either:${funktionaleVersion}"
-    implementation "org.funktionale:funktionale-memoization:${funktionaleVersion}"
-    implementation "org.funktionale:funktionale-option:${funktionaleVersion}"
-    implementation "org.funktionale:funktionale-pairing:${funktionaleVersion}"
     implementation "org.funktionale:funktionale-partials:${funktionaleVersion}"
     implementation "org.funktionale:funktionale-pipe:${funktionaleVersion}"
+    implementation "org.funktionale:funktionale-memoization:${funktionaleVersion}"
     implementation "org.funktionale:funktionale-reverse:${funktionaleVersion}"
-    implementation "org.funktionale:funktionale-state:${funktionaleVersion}"
-    implementation "org.funktionale:funktionale-try:${funktionaleVersion}"
+    implementation "org.funktionale:funktionale-complement:${funktionaleVersion}"
     implementation "org.funktionale:funktionale-utils:${funktionaleVersion}"
+    // data container type/monad-ish
+    implementation "org.funktionale:funktionale-pairing:${funktionaleVersion}"
+    implementation "org.funktionale:funktionale-either:${funktionaleVersion}"
+    implementation "org.funktionale:funktionale-option:${funktionaleVersion}"
+    implementation "org.funktionale:funktionale-try:${funktionaleVersion}"
     implementation "org.funktionale:funktionale-validation:${funktionaleVersion}"
-
+    implementation "org.funktionale:funktionale-state:${funktionaleVersion}"
+    // collection extension
+    implementation "org.funktionale:funktionale-collections:${funktionaleVersion}"
 
     /*
      * test dependencies
@@ -102,7 +105,19 @@ dependencies {
     testImplementation 'io.projectreactor:reactor-test'
 }
 
-configurations {
-    all*.exclude module: 'kotlin-stdlib-jre7'
-    all*.exclude module: 'kotlin-stdlib-jre8'
+allprojects {
+    // Overriding deprecated dependencies:
+    //      kotlin-stdlib-jre7 -> kotlin-stdlib-jdk7
+    //      kotlin-stdlib-jre8 -> kotlin-stdlib-jdk8
+    // how to see: https://dzone.com/articles/gradle-overruling-third-party
+    configurations.all {
+        resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+            def requested = details.requested
+            if (requested.group == 'org.jetbrains.kotlin' && requested.name == 'kotlin-stdlib-jre8') {
+                details.useTarget("${requested.group}:kotlin-stdlib-jdk8:${requested.version}")
+            } else if (requested.group == 'org.jetbrains.kotlin' && requested.name == 'kotlin-stdlib-jre7') {
+                details.useTarget("${requested.group}:kotlin-stdlib-jdk7:${requested.version}")
+            }
+        }
+    }
 }
