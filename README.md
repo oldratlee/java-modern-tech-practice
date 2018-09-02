@@ -1,4 +1,4 @@
-# Java modern tech practice sandbox
+# Java™ modern tech practice sandbox
 
 - `kotlin`: Programming Language
     - `kotlin coroutines`
@@ -10,7 +10,11 @@
     - `RxJava`
     - `RxKotlin`
 - `FP/Functional Programming`
-    - `vavr`
-    - `jOOL`
-    - `funKTionale`
+    - `functional programming libs`
+        - `vavr`
+        - `jOOL`
+        - `funKTionale`
+    - `functional data structure`:
+        - `Paguro`
+        - `pcollections`
 - `gradle`: build tool

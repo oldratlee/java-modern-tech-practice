@@ -98,6 +98,10 @@ dependencies {
     // collection extension
     implementation "org.funktionale:funktionale-collections:${funktionaleVersion}"
 
+    // functional data structure
+    implementation 'org.organicdesign:Paguro:3.1.0'
+    implementation 'org.pcollections:pcollections:3.0.2'
+
     /*
      * test dependencies
      */
@@ -109,7 +113,7 @@ allprojects {
     // Overriding deprecated dependencies:
     //      kotlin-stdlib-jre7 -> kotlin-stdlib-jdk7
     //      kotlin-stdlib-jre8 -> kotlin-stdlib-jdk8
-    // how to see: https://dzone.com/articles/gradle-overruling-third-party
+    // how to, see: https://dzone.com/articles/gradle-overruling-third-party
     configurations.all {
         resolutionStrategy.eachDependency { DependencyResolveDetails details ->
             def requested = details.requested
