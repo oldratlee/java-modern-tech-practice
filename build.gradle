@@ -7,6 +7,7 @@ buildscript {
 
         vavrVersion = '0.9.2'
         funktionaleVersion = '1.2'
+        cyclopsVersion = '10.0.0-FINAL'
     }
     repositories {
         mavenCentral()
@@ -48,7 +49,13 @@ kotlin {
 
 repositories {
     mavenCentral()
+    maven {
+        // for funktionale dependencies
+        url "https://repo.spring.io/libs-release/"
+        name "Spring Lib Release Repo"
+    }
 }
+
 
 
 dependencies {
@@ -72,10 +79,23 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-reactor:${kotlinCoroutinesVersion}"
 
     /*
-     * FP dependencies
+     * FP libs
      */
     implementation "io.vavr:vavr:${vavrVersion}"
     implementation "io.vavr:vavr-kotlin:${vavrVersion}"
+    // cyclops
+    implementation "com.oath.cyclops:cyclops:${cyclopsVersion}"
+    // cyclops integrations
+    implementation "com.oath.cyclops:cyclops-futurestream:${cyclopsVersion}"
+    implementation "com.oath.cyclops:cyclops-rx2-integration:${cyclopsVersion}"
+    implementation "com.oath.cyclops:cyclops-reactor-integration:${cyclopsVersion}"
+    implementation "com.oath.cyclops:cyclops-reactive-collections:${cyclopsVersion}"
+    implementation "com.oath.cyclops:cyclops-pure:${cyclopsVersion}"
+    implementation "com.oath.cyclops:cyclops-anym:${cyclopsVersion}"
+    implementation "com.oath.cyclops:cyclops-jackson-integration:${cyclopsVersion}"
+
+    implementation 'com.google.guava:guava:26.0-jre'
+    implementation 'org.functionaljava:functionaljava:4.8'
     implementation 'org.jooq:jool-java-8:0.9.14'
 
     // funktionale
@@ -101,9 +121,10 @@ dependencies {
     // functional data structure
     implementation 'org.organicdesign:Paguro:3.1.0'
     implementation 'org.pcollections:pcollections:3.0.2'
+    implementation 'com.github.andrewoma.dexx:collection:0.7'
 
     /*
-     * test dependencies
+     * test libs
      */
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'io.projectreactor:reactor-test'
