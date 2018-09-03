@@ -19,118 +19,116 @@ buildscript {
     }
 }
 
-apply plugin: 'kotlin'
-apply plugin: 'kotlin-spring'
-apply plugin: 'eclipse'
-apply plugin: 'org.springframework.boot'
-apply plugin: 'io.spring.dependency-management'
+subprojects {
+    apply plugin: 'kotlin'
+    apply plugin: 'kotlin-spring'
+    apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'eclipse'
 
-group = 'com.example.practice.java.modern.tech.sandbox'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = 1.8
-compileKotlin {
-    kotlinOptions {
-        freeCompilerArgs = ["-Xjsr305=strict"]
-        jvmTarget = "1.8"
+    group = 'com.example.practice.java.modern.tech.sandbox'
+    version = '0.0.1-SNAPSHOT'
+
+    sourceCompatibility = 1.8
+    compileKotlin {
+        kotlinOptions {
+            freeCompilerArgs = ["-Xjsr305=strict"]
+            jvmTarget = "1.8"
+        }
     }
-}
-compileTestKotlin {
-    kotlinOptions {
-        freeCompilerArgs = ["-Xjsr305=strict"]
-        jvmTarget = "1.8"
+    compileTestKotlin {
+        kotlinOptions {
+            freeCompilerArgs = ["-Xjsr305=strict"]
+            jvmTarget = "1.8"
+        }
     }
-}
-kotlin {
-    experimental {
-        coroutines 'enable'
+    kotlin {
+        experimental {
+            coroutines 'enable'
+        }
     }
-}
 
-
-repositories {
-    mavenCentral()
-    maven {
-        // for funktionale dependencies
-        url "https://repo.spring.io/libs-release/"
-        name "Spring Lib Release Repo"
+    repositories {
+        mavenCentral()
+        maven {
+            // for funktionale dependencies
+            url "https://repo.spring.io/libs-release/"
+            name "Spring Lib Release Repo"
+        }
     }
-}
 
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter'
+        implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+        implementation 'org.springframework.boot:spring-boot-starter-data-redis-reactive'
 
+        implementation 'com.fasterxml.jackson.module:jackson-module-kotlin'
+        implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
+        implementation 'org.jetbrains.kotlin:kotlin-reflect'
 
-dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-    implementation 'org.springframework.boot:spring-boot-starter-data-redis-reactive'
-    implementation 'org.springframework.boot:spring-boot-starter-webflux'
-    implementation 'com.fasterxml.jackson.module:jackson-module-kotlin'
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
-    implementation 'org.jetbrains.kotlin:kotlin-reflect'
+        /*
+         * modern libs: Reactive/Kotlin Coroutines
+         */
+        implementation 'io.reactivex.rxjava2:rxjava'
+        implementation 'io.reactivex.rxjava2:rxkotlin:2.3.0'
+        // https://github.com/Kotlin/kotlinx.coroutines
+        implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:${kotlinCoroutinesVersion}"
+        // kotlinx.coroutines integration
+        implementation "org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:${kotlinCoroutinesVersion}"
+        implementation "org.jetbrains.kotlinx:kotlinx-coroutines-rx2:${kotlinCoroutinesVersion}"
+        implementation "org.jetbrains.kotlinx:kotlinx-coroutines-reactor:${kotlinCoroutinesVersion}"
 
-    /*
-     * modern libs: Reactive/Kotlin Coroutines
-     */
-    implementation 'io.reactivex.rxjava2:rxjava'
-    implementation 'io.reactivex.rxjava2:rxkotlin:2.3.0'
-    // https://github.com/Kotlin/kotlinx.coroutines
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:${kotlinCoroutinesVersion}"
-    // kotlinx.coroutines integration
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:${kotlinCoroutinesVersion}"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-rx2:${kotlinCoroutinesVersion}"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-reactor:${kotlinCoroutinesVersion}"
+        /*
+         * FP libs
+         */
+        implementation "io.vavr:vavr:${vavrVersion}"
+        implementation "io.vavr:vavr-kotlin:${vavrVersion}"
+        // cyclops
+        implementation "com.oath.cyclops:cyclops:${cyclopsVersion}"
+        // cyclops integrations
+        implementation "com.oath.cyclops:cyclops-futurestream:${cyclopsVersion}"
+        implementation "com.oath.cyclops:cyclops-rx2-integration:${cyclopsVersion}"
+        implementation "com.oath.cyclops:cyclops-reactor-integration:${cyclopsVersion}"
+        implementation "com.oath.cyclops:cyclops-reactive-collections:${cyclopsVersion}"
+        implementation "com.oath.cyclops:cyclops-pure:${cyclopsVersion}"
+        implementation "com.oath.cyclops:cyclops-anym:${cyclopsVersion}"
+        implementation "com.oath.cyclops:cyclops-jackson-integration:${cyclopsVersion}"
 
-    /*
-     * FP libs
-     */
-    implementation "io.vavr:vavr:${vavrVersion}"
-    implementation "io.vavr:vavr-kotlin:${vavrVersion}"
-    // cyclops
-    implementation "com.oath.cyclops:cyclops:${cyclopsVersion}"
-    // cyclops integrations
-    implementation "com.oath.cyclops:cyclops-futurestream:${cyclopsVersion}"
-    implementation "com.oath.cyclops:cyclops-rx2-integration:${cyclopsVersion}"
-    implementation "com.oath.cyclops:cyclops-reactor-integration:${cyclopsVersion}"
-    implementation "com.oath.cyclops:cyclops-reactive-collections:${cyclopsVersion}"
-    implementation "com.oath.cyclops:cyclops-pure:${cyclopsVersion}"
-    implementation "com.oath.cyclops:cyclops-anym:${cyclopsVersion}"
-    implementation "com.oath.cyclops:cyclops-jackson-integration:${cyclopsVersion}"
+        implementation 'com.google.guava:guava:26.0-jre'
+        implementation 'org.functionaljava:functionaljava:4.8'
+        implementation 'org.jooq:jool-java-8:0.9.14'
 
-    implementation 'com.google.guava:guava:26.0-jre'
-    implementation 'org.functionaljava:functionaljava:4.8'
-    implementation 'org.jooq:jool-java-8:0.9.14'
+        // funktionale
+        // high-order function-ish
+        implementation "org.funktionale:funktionale-composition:${funktionaleVersion}"
+        implementation "org.funktionale:funktionale-currying:${funktionaleVersion}"
+        implementation "org.funktionale:funktionale-partials:${funktionaleVersion}"
+        implementation "org.funktionale:funktionale-pipe:${funktionaleVersion}"
+        implementation "org.funktionale:funktionale-memoization:${funktionaleVersion}"
+        implementation "org.funktionale:funktionale-reverse:${funktionaleVersion}"
+        implementation "org.funktionale:funktionale-complement:${funktionaleVersion}"
+        implementation "org.funktionale:funktionale-pairing:${funktionaleVersion}"
+        implementation "org.funktionale:funktionale-utils:${funktionaleVersion}"
+        // data container type/monad-ish
+        implementation "org.funktionale:funktionale-either:${funktionaleVersion}"
+        implementation "org.funktionale:funktionale-option:${funktionaleVersion}"
+        implementation "org.funktionale:funktionale-try:${funktionaleVersion}"
+        implementation "org.funktionale:funktionale-validation:${funktionaleVersion}"
+        implementation "org.funktionale:funktionale-state:${funktionaleVersion}"
+        // collection extension
+        implementation "org.funktionale:funktionale-collections:${funktionaleVersion}"
 
-    // funktionale
-    // high-order function-ish
-    implementation "org.funktionale:funktionale-composition:${funktionaleVersion}"
-    implementation "org.funktionale:funktionale-currying:${funktionaleVersion}"
-    implementation "org.funktionale:funktionale-partials:${funktionaleVersion}"
-    implementation "org.funktionale:funktionale-pipe:${funktionaleVersion}"
-    implementation "org.funktionale:funktionale-memoization:${funktionaleVersion}"
-    implementation "org.funktionale:funktionale-reverse:${funktionaleVersion}"
-    implementation "org.funktionale:funktionale-complement:${funktionaleVersion}"
-    implementation "org.funktionale:funktionale-pairing:${funktionaleVersion}"
-    implementation "org.funktionale:funktionale-utils:${funktionaleVersion}"
-    // data container type/monad-ish
-    implementation "org.funktionale:funktionale-either:${funktionaleVersion}"
-    implementation "org.funktionale:funktionale-option:${funktionaleVersion}"
-    implementation "org.funktionale:funktionale-try:${funktionaleVersion}"
-    implementation "org.funktionale:funktionale-validation:${funktionaleVersion}"
-    implementation "org.funktionale:funktionale-state:${funktionaleVersion}"
-    // collection extension
-    implementation "org.funktionale:funktionale-collections:${funktionaleVersion}"
+        // functional data structure
+        implementation 'org.organicdesign:Paguro:3.1.0'
+        implementation 'org.pcollections:pcollections:3.0.2'
+        implementation 'com.github.andrewoma.dexx:collection:0.7'
 
-    // functional data structure
-    implementation 'org.organicdesign:Paguro:3.1.0'
-    implementation 'org.pcollections:pcollections:3.0.2'
-    implementation 'com.github.andrewoma.dexx:collection:0.7'
+        /*
+         * test libs
+         */
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+        testImplementation 'io.projectreactor:reactor-test'
+    }
 
-    /*
-     * test libs
-     */
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'io.projectreactor:reactor-test'
-}
-
-allprojects {
     // Overriding deprecated dependencies:
     //      kotlin-stdlib-jre7 -> kotlin-stdlib-jdk7
     //      kotlin-stdlib-jre8 -> kotlin-stdlib-jdk8
