@@ -87,9 +87,9 @@ dependencies {
     implementation "org.funktionale:funktionale-memoization:${funktionaleVersion}"
     implementation "org.funktionale:funktionale-reverse:${funktionaleVersion}"
     implementation "org.funktionale:funktionale-complement:${funktionaleVersion}"
+    implementation "org.funktionale:funktionale-pairing:${funktionaleVersion}"
     implementation "org.funktionale:funktionale-utils:${funktionaleVersion}"
     // data container type/monad-ish
-    implementation "org.funktionale:funktionale-pairing:${funktionaleVersion}"
     implementation "org.funktionale:funktionale-either:${funktionaleVersion}"
     implementation "org.funktionale:funktionale-option:${funktionaleVersion}"
     implementation "org.funktionale:funktionale-try:${funktionaleVersion}"
