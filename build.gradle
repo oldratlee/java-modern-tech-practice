@@ -10,6 +10,10 @@ buildscript {
         cyclopsVersion = '10.0.0-FINAL'
     }
     repositories {
+        maven {
+            name 'Ali Repo'
+            url 'https://maven.aliyun.com/nexus/content/groups/public/'
+        }
         mavenCentral()
     }
     dependencies {
@@ -48,12 +52,11 @@ subprojects {
     }
 
     repositories {
-        mavenCentral()
         maven {
-            // for funktionale dependencies
-            url "https://repo.spring.io/libs-release/"
-            name "Spring Lib Release Repo"
+            name 'Ali Repo'
+            url 'https://maven.aliyun.com/nexus/content/groups/public/'
         }
+        mavenCentral()
     }
 
     dependencies {
