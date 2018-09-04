@@ -94,6 +94,7 @@ subprojects {
          */
         implementation "io.vavr:vavr:${vavrVersion}"
         implementation "io.vavr:vavr-kotlin:${vavrVersion}"
+        compileOnly "io.vavr:vavr-match:${vavrVersion}"
         annotationProcessor "io.vavr:vavr-match:${vavrVersion}"
         testAnnotationProcessor "io.vavr:vavr-match:${vavrVersion}"
 
@@ -157,6 +158,14 @@ subprojects {
             } else if (requested.group == 'org.jetbrains.kotlin' && requested.name == 'kotlin-stdlib-jre7') {
                 details.useTarget("${requested.group}:kotlin-stdlib-jdk7:${requested.version}")
             }
+        }
+    }
+
+    configurations {
+        // exclude annotation processor libs from compile configuration
+        compile {
+            exclude group: 'io.vavr', module: 'vavr-match'
+            exclude group: 'org.projectlombok', module: 'lombok'
         }
     }
 }
