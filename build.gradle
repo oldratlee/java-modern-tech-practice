@@ -85,6 +85,9 @@ subprojects {
          */
         implementation "io.vavr:vavr:${vavrVersion}"
         implementation "io.vavr:vavr-kotlin:${vavrVersion}"
+        annotationProcessor "io.vavr:vavr-match:${vavrVersion}"
+        testAnnotationProcessor "io.vavr:vavr-match:${vavrVersion}"
+
         // cyclops
         implementation "com.oath.cyclops:cyclops:${cyclopsVersion}"
         // cyclops integrations
@@ -130,6 +133,7 @@ subprojects {
          */
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
         testImplementation 'io.projectreactor:reactor-test'
+        testImplementation "io.vavr:vavr-test:${vavrVersion}"
     }
 
     // Overriding deprecated dependencies:
