@@ -60,6 +60,14 @@ subprojects {
         mavenCentral()
     }
 
+    configurations {
+        forAnnotationProcessor
+
+        [compileOnly, testCompileOnly, annotationProcessor, testAnnotationProcessor].each {
+            it.setExtendsFrom(it.extendsFrom + forAnnotationProcessor)
+        }
+    }
+
     dependencies {
         implementation 'org.springframework.boot:spring-boot-starter'
         implementation 'org.springframework.boot:spring-boot-starter-data-redis'
@@ -74,10 +82,7 @@ subprojects {
 
         // Gradle deprecated annotation processor warnings for lombok
         // https://stackoverflow.com/questions/50202843
-        compileOnly "org.projectlombok:lombok:${lombokVerson}"
-        testCompileOnly "org.projectlombok:lombok:${lombokVerson}"
-        annotationProcessor "org.projectlombok:lombok:${lombokVerson}"
-        testAnnotationProcessor "org.projectlombok:lombok:${lombokVerson}"
+        forAnnotationProcessor "org.projectlombok:lombok:${lombokVerson}"
 
         /*
          * modern libs: Reactive/Kotlin Coroutines
@@ -96,10 +101,7 @@ subprojects {
          */
         implementation "io.vavr:vavr:${vavrVersion}"
         implementation "io.vavr:vavr-kotlin:${vavrVersion}"
-        compileOnly "io.vavr:vavr-match:${vavrVersion}"
-        testCompileOnly "io.vavr:vavr-match:${vavrVersion}"
-        annotationProcessor "io.vavr:vavr-match:${vavrVersion}"
-        testAnnotationProcessor "io.vavr:vavr-match:${vavrVersion}"
+        forAnnotationProcessor "io.vavr:vavr-match:${vavrVersion}"
 
         // cyclops
         implementation "com.oath.cyclops:cyclops:${cyclopsVersion}"
@@ -164,11 +166,11 @@ subprojects {
         }
     }
 
-    configurations {
-        // exclude annotation processor libs from configuration
-        [compile, testCompile].each {
-            it.exclude group: 'io.vavr', module: 'vavr-match'
-            it.exclude group: 'org.projectlombok', module: 'lombok'
-        }
-    }
+//    configurations {
+//        // exclude annotation processor libs from configuration
+//        [compile, testCompile].each {
+//            it.exclude group: 'io.vavr', module: 'vavr-match'
+//            it.exclude group: 'org.projectlombok', module: 'lombok'
+//        }
+//    }
 }
