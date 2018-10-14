@@ -6,51 +6,46 @@ import java.util.*
 import java.util.concurrent.ThreadLocalRandom
 import java.util.concurrent.TimeUnit
 
+// the type of flatmap/concatMap/concatMapEager function
+private typealias XMap<T> = Flowable<T>.(Function<T, Flowable<T>>) -> Flowable<T>
+
+private data class NamedXMap<T>(val name: String, val xMap: XMap<T>)
+
 fun main(args: Array<String>) {
-    // flat map, warm-up round
-    testMap("flatmap(warm-up round)", true) { flatMap(it) }
+    val namedXMapList = listOf<NamedXMap<Int>>(
+            NamedXMap("flatmap(warm-up round)") { flatMap(it) },
 
-    println()
-    println("-------------------- delay --------------------")
-    println()
+            NamedXMap("flatmap") { flatMap(it) },
+            NamedXMap("concatMap") { concatMap(it) },
+            NamedXMap("concatMapEager") { concatMapEager(it) }
+    )
+    val delays = listOf(true, false)
 
-    testMap("flatmap", true) { flatMap(it) }
-    testMap("concatMap", true) { concatMap(it) }
-    testMap("concatMapEager", true) { concatMapEager(it) }
+    delays.forEach { delay: Boolean ->
+        val delayMsg = if (delay) "with delay" else "without delay"
+        println("-------------------- $delayMsg --------------------\n")
 
+        namedXMapList.forEach { namedXMap ->
+            val (name: String, xMap: XMap<Int>) = namedXMap
+            println("[${time()}] test $name $delayMsg\n--------------")
 
-    println()
-    println("-------------------- no delay --------------------")
-    println()
+            Flowable.range(0, 10)
+                    .xMap(Function { item: Int ->
+                        Flowable.just(item)
+                                .run {
+                                    val span = ThreadLocalRandom.current().nextLong(100, 110)
 
-    testMap("flatmap", false) { flatMap(it) }
-    testMap("concatMap", false) { concatMap(it) }
-    testMap("concatMapEager", false) { concatMapEager(it) }
-}
+                                    if (delay) delay(span, TimeUnit.MILLISECONDS)
+                                    else doOnNext { Thread.sleep(span) }
+                                }
+                    })
+                    .doOnSubscribe { println("[${time()}] $name doOnSubscribe") }
+                    .doOnNext { println("[${time()}] doOnNext [${Thread.currentThread().name}]: $it") }
+                    .blockingSubscribe { println("[${time()}] $name subscribe: $it") }
 
-typealias FlowMapper = Function<Int, Flowable<Int>>
-
-fun testMap(tag: String, delay: Boolean, flowMerge: Flowable<Int>.(FlowMapper) -> Flowable<Int>) {
-
-    val delayMsg = if (delay) "with delay" else ""
-    println("[${time()}] test $tag $delayMsg\n--------------")
-
-    Flowable.range(0, 10)
-
-            .flowMerge(Function { item: Int ->
-                Flowable.just(item)
-                        .run<Flowable<Int>, Flowable<Int>> {
-                            val span = ThreadLocalRandom.current().nextLong(100, 110)
-                            if (delay) delay(span, TimeUnit.MILLISECONDS)
-                            else doOnNext { Thread.sleep(span) }
-                        }
-            })
-
-            .doOnSubscribe { println("[${time()}] $tag doOnSubscribe") }
-            .doOnNext { println("[${time()}] doOnNext [${Thread.currentThread().name}]: $it") }
-            .blockingSubscribe { println("[${time()}] $tag subscribe: $it") }
-
-    println()
+            println()
+        }
+    }
 }
 
 
@@ -77,5 +72,5 @@ Z	Output a string abbreviation of the time zone (e.g., CST, EST, IST, etc).
 
 s	Output seconds since January 1, 1970 midnight UTC.
 Q	Output milliseconds since January 1, 1970 midnight UTC.
- */
+*/
 fun time(): String = String.format("%tH:%<tM:%<tS.%<tL", Date())
