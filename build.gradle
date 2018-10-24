@@ -1,13 +1,13 @@
 buildscript {
     ext {
-        kotlinVersion = '1.2.61'
-        kotlinCoroutinesVersion = '0.25.0'
+        kotlinVersion = '1.2.71'
+        kotlinCoroutinesVersion = '0.30.2'
 
-        springBootVersion = '2.0.4.RELEASE'
+        springBootVersion = '2.0.6.RELEASE'
 
         vavrVersion = '0.9.2'
         funktionaleVersion = '1.2'
-        cyclopsVersion = '10.0.0-FINAL'
+        cyclopsVersion = '10.0.1'
     }
     repositories {
         maven {
@@ -99,8 +99,8 @@ subprojects {
         implementation "com.oath.cyclops:cyclops-anym:${cyclopsVersion}"
         implementation "com.oath.cyclops:cyclops-jackson-integration:${cyclopsVersion}"
 
-        implementation 'com.google.guava:guava:26.0-jre'
-        implementation 'org.functionaljava:functionaljava:4.8'
+        implementation 'com.google.guava:guava:27.0-jre'
+        implementation 'org.functionaljava:functionaljava:4.8.1'
         implementation 'org.jooq:jool-java-8:0.9.14'
 
         // funktionale
@@ -125,7 +125,7 @@ subprojects {
 
         // functional data structure
         implementation 'org.organicdesign:Paguro:3.1.0'
-        implementation 'org.pcollections:pcollections:3.0.2'
+        implementation 'org.pcollections:pcollections:3.0.3'
         implementation 'com.github.andrewoma.dexx:collection:0.7'
 
         /*
