@@ -23,6 +23,11 @@ buildscript {
     }
 }
 
+// https://github.com/ben-manes/gradle-versions-plugin
+plugins {
+    id "com.github.ben-manes.versions" version "0.20.0"
+}
+
 subprojects {
     apply plugin: 'kotlin'
     apply plugin: 'kotlin-spring'
