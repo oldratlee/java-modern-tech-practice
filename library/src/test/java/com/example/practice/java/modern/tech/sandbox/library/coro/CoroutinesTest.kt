@@ -1,9 +1,8 @@
 package com.example.practice.java.modern.tech.sandbox.coro
 
-import kotlinx.coroutines.experimental.delay
-import kotlinx.coroutines.experimental.runBlocking
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 import org.junit.Test
-import kotlin.coroutines.experimental.buildSequence
 
 class CoroutinesTest {
 
@@ -19,7 +18,7 @@ class CoroutinesTest {
 
     @Test
     fun test_buildSequence() {
-        buildSequence {
+        sequence {
             var i = 1
             while (i < 10) {
                 yield(i)
