@@ -1,7 +1,7 @@
 buildscript {
     ext {
-        kotlinVersion = '1.2.71'
-        kotlinCoroutinesVersion = '0.30.2'
+        kotlinVersion = '1.3.0'
+        kotlinCoroutinesVersion = '1.0.0'
 
         springBootVersion = '2.0.6.RELEASE'
 
@@ -50,11 +50,6 @@ subprojects {
             jvmTarget = "1.8"
         }
     }
-    kotlin {
-        experimental {
-            coroutines 'enable'
-        }
-    }
 
     repositories {
         maven {
@@ -70,8 +65,11 @@ subprojects {
         implementation 'org.springframework.boot:spring-boot-starter-data-redis-reactive'
 
         implementation 'com.fasterxml.jackson.module:jackson-module-kotlin'
-        implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
-        implementation 'org.jetbrains.kotlin:kotlin-reflect'
+        implementation "org.jetbrains.kotlin:kotlin-stdlib:${kotlinVersion}"
+        implementation "org.jetbrains.kotlin:kotlin-stdlib-common:${kotlinVersion}"
+        implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${kotlinVersion}"
+        implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}"
+        implementation "org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}"
 
         /*
          * modern libs: Reactive/Kotlin Coroutines
