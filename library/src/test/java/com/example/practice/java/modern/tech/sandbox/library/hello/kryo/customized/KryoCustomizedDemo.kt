@@ -17,17 +17,6 @@ import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.ConcurrentMap
 import java.util.concurrent.atomic.AtomicLong
 
-
-data class Tag(val name: String) {
-    @Suppress("unused")
-    private constructor() : this("")
-}
-
-data class Item(val name: String, val tagFlow: Flowable<Tag>) {
-    @Suppress("unused")
-    private constructor() : this("", Flowable.empty())
-}
-
 fun main(args: Array<String>) {
     com.esotericsoftware.minlog.Log.TRACE()
     val kryo = getKryo()
@@ -35,14 +24,45 @@ fun main(args: Array<String>) {
     // round trip usage output/input for test
     // https://github.com/EsotericSoftware/kryo#round-trip
     val output = Output(1024, -1)
-    kryo.writeObject(output, Item("Item 1", Flowable.just(Tag("tag 1"), Tag("tag 2"))))
+    kryo.writeObject(output,
+            ShopCart("jerry",
+                    Flowable.just(
+                            Item("Item 1", Flowable.just(Tag("tag 1"), Tag("tag 2"))),
+                            Item("Item 2", Flowable.just(Tag("tag 1"), Tag("tag 2")))
+                    )))
     output.close()
 
     val input = Input(output.buffer, 0, output.position())
-    kryo.readObject(input, Item::class.java)!!.let { item: Item ->
-        item.tagFlow.subscribe { println("${item.name} -> ${it.name}") }
+    kryo.readObject(input, ShopCart::class.java)!!.let { shopCart: ShopCart ->
+        shopCart.itemFlow
+                .flatMap { item ->
+                    item.tagFlow.map {
+                        "shopCart ${shopCart.user} - ${item.name} - ${it.name}"
+                    }
+                }
+                .subscribe(::println)
     }
     input.close()
+}
+
+// Mocked Biz Pojo
+
+data class Tag(val name: String) {
+    // default constructor for serialization
+    @Suppress("unused")
+    private constructor() : this("")
+}
+
+data class Item(val name: String, val tagFlow: Flowable<Tag>) {
+    // default constructor for serialization
+    @Suppress("unused")
+    private constructor() : this("", Flowable.empty())
+}
+
+data class ShopCart(val user: String, val itemFlow: Flowable<Item>) {
+    // default constructor for serialization
+    @Suppress("unused")
+    private constructor() : this("", Flowable.empty())
 }
 
 private fun getKryo(): Kryo {
@@ -53,17 +73,13 @@ private fun getKryo(): Kryo {
     // enable to log a message when an unregistered class is encountered
     kryo.isWarnUnregisteredClasses = true
 
+    // Default Serializer
     // Publisher Serializer
-    kryo.register(Publisher::class.java, PublisherSerializer())
+    kryo.addDefaultSerializer(Publisher::class.java, PublisherSerializer())
 
+    // Serializer
     // https://github.com/magro/kryo-serializers
     kryo.register(Arrays.asList("")::class.java, ArraysAsListSerializer())
-    kryo.register(Collections.EMPTY_LIST::class.java, CollectionsEmptyListSerializer())
-    kryo.register(Collections.EMPTY_MAP::class.java, CollectionsEmptyMapSerializer())
-    kryo.register(Collections.EMPTY_SET::class.java, CollectionsEmptySetSerializer())
-    kryo.register(Collections.singletonList("")::class.java, CollectionsSingletonListSerializer())
-    kryo.register(Collections.singleton("")::class.java, CollectionsSingletonSetSerializer())
-    kryo.register(Collections.singletonMap("", "")::class.java, CollectionsSingletonMapSerializer())
     kryo.register(GregorianCalendar::class.java, GregorianCalendarSerializer())
     kryo.register(InvocationHandler::class.java, JdkProxySerializer())
     UnmodifiableCollectionsSerializer.registerSerializers(kryo)
