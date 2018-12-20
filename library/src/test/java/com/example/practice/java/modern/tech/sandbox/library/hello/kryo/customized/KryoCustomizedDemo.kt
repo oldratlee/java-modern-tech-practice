@@ -6,7 +6,7 @@ import com.esotericsoftware.kryo.factories.ReflectionSerializerFactory
 import com.esotericsoftware.kryo.io.Input
 import com.esotericsoftware.kryo.io.Output
 import com.esotericsoftware.kryo.serializers.CompatibleFieldSerializer
-import com.example.practice.java.modern.tech.sandbox.library.hello.kryo.LessMapReferenceResolver
+import com.example.practice.java.modern.tech.sandbox.library.hello.kryo.demo.LessMapReferenceResolver
 import de.javakaffee.kryoserializers.*
 import io.reactivex.Flowable
 import org.reactivestreams.Publisher

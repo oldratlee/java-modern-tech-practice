@@ -1,4 +1,4 @@
-package com.example.practice.java.modern.tech.sandbox.library.hello.kryo
+package com.example.practice.java.modern.tech.sandbox.library.hello.kryo.demo
 
 import com.esotericsoftware.kryo.Kryo
 import com.esotericsoftware.kryo.factories.ReflectionSerializerFactory
