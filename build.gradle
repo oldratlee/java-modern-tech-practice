@@ -6,6 +6,7 @@ buildscript {
         springBootVersion = '2.1.0.RELEASE'
 
         vavrVersion = '0.9.2'
+        arrowVersion = "0.8.1"
         funktionaleVersion = '1.2'
         cyclopsVersion = '10.0.4'
     }
@@ -106,6 +107,30 @@ subprojects {
         implementation 'org.functionaljava:functionaljava:4.8.1'
         implementation 'org.jooq:jool-java-8:0.9.14'
 
+        // kotlin libs
+        implementation "io.arrow-kt:arrow-core:$arrowVersion"
+        implementation "io.arrow-kt:arrow-syntax:$arrowVersion"
+        implementation "io.arrow-kt:arrow-typeclasses:$arrowVersion"
+        implementation "io.arrow-kt:arrow-data:$arrowVersion"
+        implementation "io.arrow-kt:arrow-instances-core:$arrowVersion"
+        implementation "io.arrow-kt:arrow-instances-data:$arrowVersion"
+        kapt           "io.arrow-kt:arrow-annotations-processor:$arrowVersion"
+        implementation "io.arrow-kt:arrow-free:$arrowVersion" //optional
+        implementation "io.arrow-kt:arrow-instances-free:$arrowVersion" //optional
+        implementation "io.arrow-kt:arrow-mtl:$arrowVersion" //optional
+        implementation "io.arrow-kt:arrow-effects:$arrowVersion" //optional
+        implementation "io.arrow-kt:arrow-effects-instances:$arrowVersion" //optional
+        implementation "io.arrow-kt:arrow-effects-rx2:$arrowVersion" //optional
+        implementation "io.arrow-kt:arrow-effects-rx2-instances:$arrowVersion" //optional
+        implementation "io.arrow-kt:arrow-effects-reactor:$arrowVersion" //optional
+        implementation "io.arrow-kt:arrow-effects-reactor-instances:$arrowVersion" //optional
+        implementation "io.arrow-kt:arrow-effects-kotlinx-coroutines:$arrowVersion" //optional
+        implementation "io.arrow-kt:arrow-effects-kotlinx-coroutines-instances:$arrowVersion" //optional
+        implementation "io.arrow-kt:arrow-optics:$arrowVersion" //optional
+        implementation "io.arrow-kt:arrow-generic:$arrowVersion" //optional
+        implementation "io.arrow-kt:arrow-recursion:$arrowVersion" //optional
+        implementation "io.arrow-kt:arrow-instances-recursion:$arrowVersion" //optional
+        implementation "io.arrow-kt:arrow-integration-retrofit-adapter:$arrowVersion" //optional
         // funktionale
         // high-order function-ish
         implementation "org.funktionale:funktionale-composition:${funktionaleVersion}"
